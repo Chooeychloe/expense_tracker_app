@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
             ),
             child: const Icon(CupertinoIcons.add)),
       ),
-      body: MainScreen(),
+      body: const MainScreen(),
     );
   }
 }

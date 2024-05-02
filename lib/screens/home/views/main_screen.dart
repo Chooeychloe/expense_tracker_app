@@ -1,8 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 
+import 'package:expense_tracker_app/data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../../widgets/income_expense_row_widget.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -11,7 +13,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
         child: Column(
           children: [
             Row(
@@ -139,77 +141,113 @@ class MainScreen extends StatelessWidget {
                   )
                 ],
               ),
-            )
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Transactions',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).colorScheme.outline,
+                        fontWeight: FontWeight.w400),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: transactionData.length,
+                itemBuilder: (context, int i) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: transactionData[i]['color'],
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    transactionData[i]['icon'],
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Text(
+                                  transactionData[i]['name'],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  transactionData[i]['totalAmount'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  transactionData[i]['date'],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color:
+                                          Theme.of(context).colorScheme.outline,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class IncomeExpenseRowWidget extends StatelessWidget {
-  final String label;
-  final String amount;
-  final double labelFontSize;
-  final double amountFontSize;
-  final FontWeight amountFontWeight;
-  final FontWeight labelFontWeight;
-  final IconData icon;
-  final Color iconColor;
-  const IncomeExpenseRowWidget({
-    Key? key,
-    required this.label,
-    required this.amount,
-    required this.labelFontSize,
-    required this.amountFontSize,
-    required this.amountFontWeight,
-    required this.labelFontWeight,
-    required this.icon,
-    required this.iconColor,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 20,
-          height: 20,
-          decoration: const BoxDecoration(
-            color: Colors.white30,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 12,
-            ),
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                  fontSize: labelFontSize,
-                  color: Colors.white,
-                  fontWeight: labelFontWeight),
-            ),
-            Text(
-              amount,
-              style: TextStyle(
-                  fontSize: amountFontSize,
-                  color: Colors.white,
-                  fontWeight: amountFontWeight),
-            ),
-          ],
-        )
-      ],
     );
   }
 }
